@@ -90,7 +90,7 @@ interface ProfileFieldProps {
   icon: ImageSourcePropType
 }
 
-interface CreateUserPrams {
+export interface CreateUserParams {
   email: string
   password: string
   name: string
