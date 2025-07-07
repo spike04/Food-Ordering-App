@@ -33,6 +33,14 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
+      ],
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "project": "jsm_rn_food_ordering",
+          "organization": "digital-workstation"
+        }
       ]
     ],
     "experiments": {
