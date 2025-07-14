@@ -6,6 +6,7 @@ import {
   Databases,
   ID,
   Query,
+  Storage,
 } from 'react-native-appwrite'
 
 export const appwriteConfig = {
@@ -18,7 +19,7 @@ export const appwriteConfig = {
   categoriesCollectionId: '68748e4e0002c60ba1b8',
   menuCollectionId: '68748ec4003dbe2f37fe',
   customizationsCollectionId: '68749fbf0023ce546593',
-  menuCustomizationCollectionId: '6874a047002087651b54',
+  menuCustomizationsCollectionId: '6874a047002087651b54',
 }
 
 export const client = new Client()
@@ -29,7 +30,8 @@ client
   .setPlatform(appwriteConfig.platform)
 
 export const account = new Account(client)
-export const database = new Databases(client)
+export const databases = new Databases(client)
+export const storage = new Storage(client)
 export const avatars = new Avatars(client)
 
 export const createUser = async ({
@@ -46,7 +48,7 @@ export const createUser = async ({
 
     const avatarUrl = avatars.getInitialsURL(name)
 
-    return await database.createDocument(
+    return await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.userCollectionId,
       ID.unique(),
@@ -75,7 +77,7 @@ export const getCurrentUser = async () => {
     const currentAccount = await account.get()
     if (!currentAccount) throw Error
 
-    const currentUser = await database.listDocuments(
+    const currentUser = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.userCollectionId,
       [Query.equal('accountId', currentAccount.$id)],
