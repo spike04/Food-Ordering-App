@@ -1,4 +1,4 @@
-import { CreateUserParams, SignInParams } from '@/types'
+import { CreateUserParams, GetMenuParams, SignInParams } from '@/types'
 import {
   Account,
   Avatars,
@@ -86,6 +86,38 @@ export const getCurrentUser = async () => {
     if (!currentUser) throw Error
 
     return currentUser.documents[0]
+  } catch (error) {
+    throw new Error(error as string)
+  }
+}
+
+export const getMenu = async ({ category, query }: GetMenuParams) => {
+  try {
+    const queries: string[] = []
+
+    if (category) queries.push(Query.equal('categories', category))
+    if (query) queries.push(Query.search('name', query))
+
+    const menus = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.menuCollectionId,
+      queries,
+    )
+
+    return menus.documents
+  } catch (e) {
+    throw new Error(e as string)
+  }
+}
+
+export const getCategories = async () => {
+  try {
+    const categories = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.categoriesCollectionId,
+    )
+
+    return categories.documents
   } catch (error) {
     throw new Error(error as string)
   }
